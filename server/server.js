@@ -8,6 +8,7 @@ import clientRoutes from "./routes/client";
 import generalRoutes from "./routes/general";
 import managementRoutes from "./routes/management";
 import salesRoutes from "./routes/sales";
+import mongoose from "mongoose";
 
 //configuration
 
@@ -27,3 +28,14 @@ app.use("/client", clientRoutes);
 app.use("/general", generalRoutes);
 app.use("/management", managementRoutes);
 app.use("/sales", salesRoutes);
+
+//Mongoose Setup
+
+const PORT = process.env.PORT || 9000;
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewURLParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => app.listen(PORT, () => console.log(`Server Port: ${PORT}`)))
+  .catch((err) => console.log(`error connecting: ${`err.message`}`));
